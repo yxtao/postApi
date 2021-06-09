@@ -15,8 +15,8 @@ export const getPing = async (req, res) => {
 }
 
 export const getPosts = async (req, res) => { 
-    var direction = req.query.direction ? req.query.direction : "desc"; // req.query.paramA
-    var sortBy = req.query.sortBy ?  req.query.sortBy: "likes" ;
+    var direction = req.query.direction ? req.query.direction : "asc"; // req.query.paramA
+    var sortBy = req.query.sortBy ?  req.query.sortBy: "id" ;
     const tag = req.query.tag;
     var errorMessage = "fail";
    try {
