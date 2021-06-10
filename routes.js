@@ -5,7 +5,6 @@ const { setupCache  } = pkg;
 
 const url ="https://api.hatchways.io/assessment/blog/posts" ;
 
-
 export const getPing = async (req, res) => {
     try {
         res.status(200).json({success:"true"});
@@ -15,36 +14,34 @@ export const getPing = async (req, res) => {
 }
 
 export const getPosts = async (req, res) => { 
-    var direction = req.query.direction ? req.query.direction : "asc"; // req.query.paramA
+    var direction = req.query.direction ? req.query.direction : "asc"; //req.query
     var sortBy = req.query.sortBy ?  req.query.sortBy: "id" ;
     const tag = req.query.tag;
     var errorMessage = "fail";
-   try {
-       if (tag==null) {
+    try {
+         if (tag==null) {
            errorMessage="Tags parameter is required ";
-       }
-       
-       // Create `axios` instance passing the newly created `cache.adapter`
-       const cache = setupCache({
-        maxAge: 15 * 60 * 1000,
-        debug: true,
-        exclude: {
-          query: false
-        }
-      })
+          }
+        // Create `axios` instance passing the newly created `cache.adapter`
+        const cache = setupCache({
+            maxAge: 15 * 60 * 1000,
+            debug: true,
+            exclude: {
+               query: false
+             }
+         })
       
-      const api = axios.create({
+        const api = axios.create({
         adapter: cache.adapter
       })
 
-       const result = await api.get(url, {params: {tag: tag}});
+        const result = await api.get(url, {params: {tag: tag}});
       // Interacting with the store, see `localStorage` API.
-       const cachedStorage = await cache.store;
-       console.log(JSON.stringify(cachedStorage)) ;
+        const cachedStorage = await cache.store;
+        console.log(JSON.stringify(cachedStorage)) ;
 
        if (result.data.posts[0].hasOwnProperty(sortBy)){ // unpack result, there is a data property
-          
-           result.data.posts.sort(function(a,b){ //sort function 
+            result.data.posts.sort(function(a,b){ //sort function 
                var compareA = a[sortBy];
                var compareB = b[sortBy];
                if(sortBy == "tags") {
@@ -65,7 +62,7 @@ export const getPosts = async (req, res) => {
      
    } catch (error) {
        res.status(404).json({message: error.message});
-   }
+     }
 }
 
 export const router = express.Router();
